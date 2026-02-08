@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.20;
+pragma solidity ^0.8.20;
 
 /// @notice Minimal ERC20 interface for USDC (transfer / transferFrom may not return bool on some chains).
 interface IERC20 {

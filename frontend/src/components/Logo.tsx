@@ -9,7 +9,7 @@ export function Logo() {
       <button
         type="button"
         onClick={scrollTop}
-        className="group flex cursor-pointer items-center gap-2.5 rounded-lg p-1 transition-all duration-200 hover:opacity-90 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-usagex-primary/30 focus:ring-offset-2 -m-1"
+        className="group flex cursor-pointer items-center gap-2.5 rounded-lg p-1 transition-all duration-200 hover:scale-[1.02] hover:opacity-90 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-usagex-primary/30 focus:ring-offset-2 -m-1"
         aria-label="UsageX – go to top"
       >
       {/* Icon: lightning bolt (usage / speed) */}

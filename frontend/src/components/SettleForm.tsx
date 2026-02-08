@@ -66,12 +66,12 @@ export function SettleForm() {
           placeholder="0.00"
           value={usedAmount}
           onChange={(e) => setUsedAmount(e.target.value)}
-          className="flex-1 rounded-lg border border-slate-300 px-3 py-2 text-sm text-usagex-dark transition-all duration-300 placeholder:text-slate-400 focus:border-usagex-success focus:outline-none focus:ring-2 focus:ring-usagex-success/20 focus:shadow-sm"
+          className="flex-1 cursor-text rounded-lg border border-slate-300 px-3 py-2 text-sm text-usagex-dark transition-all duration-300 placeholder:text-slate-400 focus:border-usagex-success focus:outline-none focus:ring-2 focus:ring-usagex-success/20 focus:shadow-sm"
         />
         <button
           type="submit"
           disabled={loading}
-          className="btn-cta cursor-pointer rounded-lg bg-usagex-success px-4 py-2 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:bg-usagex-success-hover disabled:cursor-not-allowed disabled:opacity-50 disabled:transform-none focus:outline-none focus:ring-2 focus:ring-usagex-success focus:ring-offset-2"
+          className="btn-cta cursor-pointer rounded-lg bg-usagex-success px-4 py-2 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:scale-[1.03] hover:bg-usagex-success-hover active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:transform-none focus:outline-none focus:ring-2 focus:ring-usagex-success focus:ring-offset-2"
         >
           {loading ? "…" : "Settle"}
         </button>

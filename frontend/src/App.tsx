@@ -4,6 +4,9 @@ import { Logo } from "./components/Logo";
 import { BalanceCard } from "./components/BalanceCard";
 import { DepositForm } from "./components/DepositForm";
 import { SettleForm } from "./components/SettleForm";
+import { useYellow } from "./context/YellowContext";
+import { useWallet } from "./context/WalletContext";
+import { useState } from "react";
 
 const STEPS = [
   {
@@ -39,6 +42,39 @@ function scrollToSession() {
 }
 
 export default function App() {
+  const {
+    yellowState,
+    yellowError,
+    yellowConnected,
+    connectYellow,
+    disconnectYellow,
+    createUsageSession,
+  } = useYellow();
+  const [sessionLoading, setSessionLoading] = useState(false);
+  const [sessionError, setSessionError] = useState<string | null>(null);
+  const [sessionSuccess, setSessionSuccess] = useState(false);
+  const { address } = useWallet();
+
+  const handleStartOffChainSession = async () => {
+    if (!address || !yellowConnected) return;
+    setSessionError(null);
+    setSessionSuccess(false);
+    setSessionLoading(true);
+    try {
+      await createUsageSession({
+        participants: [address],
+        allocations: [
+          { participant: address, asset: "usdc", amount: "1000000" },
+        ],
+      });
+      setSessionSuccess(true);
+    } catch (e) {
+      setSessionError(e instanceof Error ? e.message : "Failed to create session");
+    } finally {
+      setSessionLoading(false);
+    }
+  };
+
   return (
     <div className="relative min-h-screen bg-transparent text-usagex-dark">
       <AnimatedBackground />
@@ -178,6 +214,94 @@ export default function App() {
                 Connect your wallet, deposit USDC to open a usage session, then settle when you’re done. Unused funds are refunded automatically.
               </p>
             </div>
+            {/* Yellow Network – off-chain session handling */}
+            <section
+              className="card-interactive group col-span-full rounded-2xl border border-slate-200/80 bg-white/95 p-5 shadow-lg backdrop-blur-sm sm:p-6"
+              aria-label="Yellow Network"
+            >
+              <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-usagex-primary">
+                Yellow Network
+              </h3>
+              <p className="mb-4 text-slate-600 text-sm leading-relaxed">
+                Off-chain sessions &amp; instant usage accounting. Connect to enable usage tracking without per-action gas.
+              </p>
+              <div className="flex flex-wrap items-center gap-3">
+                <span
+                  className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ${
+                    yellowConnected
+                      ? "bg-usagex-success/15 text-usagex-success"
+                      : yellowState === "connecting" || yellowState === "authenticating"
+                        ? "bg-usagex-primary/15 text-usagex-primary"
+                        : yellowState === "error"
+                          ? "bg-red-100 text-red-700"
+                          : "bg-slate-100 text-slate-600"
+                  }`}
+                >
+                  <span
+                    className={`h-1.5 w-1.5 shrink-0 rounded-full ${
+                      yellowConnected
+                        ? "bg-usagex-success"
+                        : yellowState === "connecting" || yellowState === "authenticating"
+                          ? "animate-pulse bg-usagex-primary"
+                          : yellowState === "error"
+                            ? "bg-red-500"
+                            : "bg-slate-400"
+                    }`}
+                    aria-hidden
+                  />
+                  {yellowState === "connecting" || yellowState === "authenticating"
+                    ? "Connecting…"
+                    : yellowConnected
+                      ? "Connected"
+                      : yellowState === "error"
+                        ? "Error"
+                        : "Disconnected"}
+                </span>
+                {yellowError && (
+                  <span className="text-red-600 text-xs" role="alert">
+                    {yellowError}
+                  </span>
+                )}
+                {yellowConnected ? (
+                  <>
+                    <button
+                      type="button"
+                      onClick={disconnectYellow}
+                      className="cursor-pointer rounded-lg border border-slate-300 bg-usagex-surface px-3 py-1.5 text-sm font-medium text-usagex-dark transition-all duration-300 hover:scale-[1.02] hover:border-slate-400 hover:bg-slate-100 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-usagex-primary/30"
+                    >
+                      Disconnect Yellow
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleStartOffChainSession}
+                      disabled={sessionLoading || !address}
+                      className="btn-cta cursor-pointer rounded-lg bg-usagex-success px-4 py-2 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:scale-[1.03] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:transform-none focus:outline-none focus:ring-2 focus:ring-usagex-success focus:ring-offset-2"
+                    >
+                      {sessionLoading ? "Creating…" : "Start off-chain session"}
+                    </button>
+                  </>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={connectYellow}
+                    disabled={yellowState === "connecting" || yellowState === "authenticating"}
+                    className="btn-cta cursor-pointer rounded-lg bg-usagex-primary px-4 py-2 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:scale-[1.03] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:transform-none focus:outline-none focus:ring-2 focus:ring-usagex-primary focus:ring-offset-2"
+                  >
+                    Connect Yellow
+                  </button>
+                )}
+              </div>
+              {sessionError && (
+                <p className="mt-3 text-red-600 text-sm" role="alert">
+                  {sessionError}
+                </p>
+              )}
+              {sessionSuccess && (
+                <p className="mt-3 text-usagex-success text-sm">
+                  Off-chain session created. Usage can be tracked without per-action gas.
+                </p>
+              )}
+            </section>
             <BalanceCard />
             <div className="flex flex-col gap-6">
               <DepositForm />

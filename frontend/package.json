@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@erc7824/nitrolite": "^0.5.3",
     "ethers": "^6.13.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"

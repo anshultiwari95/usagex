@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import { WalletProvider } from "./context/WalletContext";
+import { YellowProvider } from "./context/YellowContext";
 import { ErrorBoundary } from "./ErrorBoundary";
 import "./index.css";
 
@@ -16,7 +17,9 @@ try {
     <React.StrictMode>
       <ErrorBoundary>
         <WalletProvider>
-          <App />
+          <YellowProvider>
+            <App />
+          </YellowProvider>
         </WalletProvider>
       </ErrorBoundary>
     </React.StrictMode>

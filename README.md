@@ -62,7 +62,7 @@ Users prepay USDC to open a session, consume credits as they use the app, and se
 - **Hardhat v2** – Local development & testing
 - **USDC (ERC20)** – Payment & settlement token
 - **ENS** – Settlement contract and wallet display (resolve ENS names, show ENS for connected address)
-- **Yellow Network (planned)** – Off-chain sessions & instant usage accounting
+- **Yellow Network (@erc7824/nitrolite)** – Off-chain sessions & instant usage accounting via ClearNode WebSocket
 - **EVM chains** – Base / Ethereum-compatible networks
 
 ---
@@ -86,7 +86,7 @@ Users prepay USDC to open a session, consume credits as they use the app, and se
 - [x] Ignition deploy (MockERC20 + UsageXSettlement)  
 - [x] Network config (localhost, Sepolia, Base Sepolia)  
 - [ ] Testnet deployment (run `npm run deploy -- --network sepolia`)  
-- [ ] Yellow Network integration  
+- [x] Yellow Network integration (Connect to ClearNode, auth, app session helpers)
 - [x] ENS support (settlement by ENS name, show ENS for wallet)
 - [x] Frontend dashboard (connect, deposit, balance, settle)  
 
@@ -114,6 +114,8 @@ npm run dev            # http://localhost:5173
 
 After `npm run deploy` from the repo root, copy the printed `UsageXSettlement` address into `frontend/.env` as `VITE_SETTLEMENT_ADDRESS` (or use an ENS name, e.g. `usagex.eth`). Use Hardhat (chain 31337) or your wallet’s network; set `VITE_CHAIN_ID=31337` for local. ENS resolution works on mainnet and public testnets; the connected wallet’s ENS name is shown when available.
 
+**Yellow Network:** Optional. Set `VITE_YELLOW_WS_URL` to `wss://clearnet-sandbox.yellow.com/ws` (sandbox) or `wss://clearnet.yellow.com/ws` (production). The dashboard shows a "Yellow Network" card; connect your wallet first, then "Connect Yellow" to authenticate with ClearNode for off-chain session handling.
+
 **Background:** The homepage uses `frontend/public/bg1.jpg` as a moving (Ken Burns) background. If missing, the fallback is a dark background.
 
 ---
@@ -121,7 +123,7 @@ After `npm run deploy` from the repo root, copy the printed `UsageXSettlement` a
 ## 🛣️ Roadmap
 
 - Deploy UsageXSettlement to testnet
-- Add Yellow SDK for off-chain session handling
+- ~~Add Yellow SDK for off-chain session handling~~ (done: @erc7824/nitrolite + YellowContext + UI)
 - Build minimal frontend for session creation & settlement
 - Add example integration (API / creator tool demo)
 

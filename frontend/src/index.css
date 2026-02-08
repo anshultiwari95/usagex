@@ -37,22 +37,56 @@ body {
   background: rgba(255, 255, 255, 0.95);
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
   backdrop-filter: blur(8px);
+  cursor: default;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.3s ease;
+}
+.card:hover {
+  transform: scale(1.01);
+  box-shadow: 0 16px 24px -6px rgba(0, 0, 0, 0.1), 0 6px 10px -4px rgba(0, 0, 0, 0.05);
 }
 
+/* Card with pointer, scale, and background zoom on hover */
 .card-interactive {
+  position: relative;
+  overflow: hidden;
   border-radius: 1rem;
   border: 1px solid rgba(226, 232, 240, 0.9);
   background: rgba(255, 255, 255, 0.95);
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
   backdrop-filter: blur(8px);
+  cursor: pointer;
   transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
     box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
     border-color 0.3s ease;
 }
+.card-interactive::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  z-index: -1;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(79, 70, 229, 0.08) 0%,
+    rgba(79, 70, 229, 0.02) 40%,
+    transparent 70%
+  );
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity 0.35s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
 .card-interactive:hover {
-  transform: translateY(-4px);
+  transform: translateY(-4px) scale(1.02);
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05),
-    0 0 0 1px rgba(79, 70, 229, 0.1);
+    0 0 0 1px rgba(79, 70, 229, 0.12);
+}
+.card-interactive:hover::before {
+  opacity: 1;
+  transform: scale(1.15);
+}
+.card-interactive:active {
+  transform: translateY(-2px) scale(1.01);
 }
 
 /* Hero card gradient */
@@ -128,8 +162,9 @@ body {
 
 .section-heading {
   display: inline-block;
+  cursor: pointer;
   transition: transform 0.2s ease, color 0.2s ease;
 }
 .section-heading:hover {
-  transform: translateX(4px);
+  transform: translateX(4px) scale(1.02);
 }

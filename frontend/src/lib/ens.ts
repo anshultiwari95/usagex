@@ -39,8 +39,8 @@ export async function lookupEnsName(
  * Check if a string looks like an ENS name (e.g. "vitalik.eth") rather than an address.
  */
 export function looksLikeEnsName(value: string): boolean {
-  const trimmed = value.trim();
-  if (!trimmed || trimmed.length < 4) return false;
-  if (isAddress(trimmed)) return false;
-  return trimmed.endsWith(".eth") || trimmed.includes(".");
+  const s = value.trim();
+  if (!s || s.length < 4) return false;
+  if (isAddress(s)) return false;
+  return (s as string).endsWith(".eth") || (s as string).includes(".");
 }

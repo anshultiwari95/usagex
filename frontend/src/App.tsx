@@ -1,5 +1,6 @@
 import { AnimatedBackground } from "./components/AnimatedBackground";
 import { ConnectButton } from "./components/ConnectButton";
+import { Logo } from "./components/Logo";
 import { BalanceCard } from "./components/BalanceCard";
 import { DepositForm } from "./components/DepositForm";
 import { SettleForm } from "./components/SettleForm";
@@ -43,9 +44,7 @@ export default function App() {
       <AnimatedBackground />
       <header className="sticky top-0 z-10 border-b border-slate-200/80 bg-white/90 shadow-sm backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-          <h1 className="text-xl font-semibold tracking-tight text-usagex-dark">
-            UsageX
-          </h1>
+          <Logo />
           <ConnectButton />
         </div>
       </header>

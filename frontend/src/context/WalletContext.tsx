@@ -1,8 +1,8 @@
 import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
-import { BrowserProvider, Contract, JsonRpcSigner } from "ethers";
+import { BrowserProvider, Contract, isAddress, JsonRpcSigner } from "ethers";
 import SETTLEMENT_ABI from "../abi/UsageXSettlement.json";
 import MOCK_ERC20_ABI from "../abi/MockERC20.json";
-import { lookupEnsName, resolveAddress } from "../lib/ens";
+import { lookupEnsName, looksLikeEnsName, resolveAddress } from "../lib/ens";
 
 const SETTLEMENT_ADDRESS_OR_ENS = import.meta.env.VITE_SETTLEMENT_ADDRESS || "";
 
@@ -57,7 +57,12 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     if (SETTLEMENT_ADDRESS_OR_ENS && sig) {
       let settlementAddress: string | null = null;
       try {
-        settlementAddress = await resolveAddress(prov, SETTLEMENT_ADDRESS_OR_ENS);
+        if (looksLikeEnsName(SETTLEMENT_ADDRESS_OR_ENS)) {
+          settlementAddress = await resolveAddress(prov, SETTLEMENT_ADDRESS_OR_ENS);
+        } else {
+          const trimmed = SETTLEMENT_ADDRESS_OR_ENS.trim();
+          settlementAddress = isAddress(trimmed) ? trimmed : null;
+        }
       } catch {
         settlementAddress = null;
       }
@@ -84,7 +89,12 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     if (!provider || !signer || !SETTLEMENT_ADDRESS_OR_ENS) return;
     let settlementAddress: string | null = null;
     try {
-      settlementAddress = await resolveAddress(provider, SETTLEMENT_ADDRESS_OR_ENS);
+      if (looksLikeEnsName(SETTLEMENT_ADDRESS_OR_ENS)) {
+        settlementAddress = await resolveAddress(provider, SETTLEMENT_ADDRESS_OR_ENS);
+      } else {
+        const trimmed = SETTLEMENT_ADDRESS_OR_ENS.trim();
+        settlementAddress = isAddress(trimmed) ? trimmed : null;
+      }
     } catch {
       settlementAddress = null;
     }

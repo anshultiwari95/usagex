@@ -1,0 +1,135 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #0f172a;
+}
+
+/* Base: fallback if images don’t load. Moving images are in AnimatedBackground. */
+body {
+  min-height: 100vh;
+  background-color: #0f172a;
+}
+
+#root {
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+::selection {
+  background-color: rgba(79, 70, 229, 0.25);
+}
+
+/* Card base - consistent for all content blocks */
+.card {
+  border-radius: 1rem;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+  backdrop-filter: blur(8px);
+}
+
+.card-interactive {
+  border-radius: 1rem;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+  backdrop-filter: blur(8px);
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.3s ease;
+}
+.card-interactive:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05),
+    0 0 0 1px rgba(79, 70, 229, 0.1);
+}
+
+/* Hero card gradient */
+.hero-gradient {
+  background: linear-gradient(
+    135deg,
+    rgba(79, 70, 229, 0.12) 0%,
+    rgba(124, 58, 237, 0.06) 50%,
+    rgba(79, 70, 229, 0.1) 100%
+  );
+  background-size: 200% 200%;
+  animation: gradient-shift 8s ease-in-out infinite;
+}
+.hero-gradient:hover {
+  animation: gradient-shift 6s ease-in-out infinite;
+  box-shadow: 0 0 24px -4px rgba(79, 70, 229, 0.15);
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Moving image background: Ken Burns (slow pan + zoom) */
+@keyframes kenburns {
+  0%, 100% { transform: scale(1) translate(0, 0); }
+  25% { transform: scale(1.08) translate(-2%, -1%); }
+  50% { transform: scale(1.12) translate(1%, 2%); }
+  75% { transform: scale(1.06) translate(2%, -2%); }
+}
+
+/* Crossfade: each image fades in, holds, fades out */
+@keyframes bg-fade {
+  0% { opacity: 0; }
+  4% { opacity: 1; }
+  21% { opacity: 1; }
+  25% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+.btn-cta {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.25s ease,
+    background-color 0.2s ease;
+}
+.btn-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -6px rgba(79, 70, 229, 0.4);
+}
+.btn-cta:active {
+  transform: translateY(0);
+}
+.btn-cta::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.15),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+.btn-cta:hover::after {
+  left: 100%;
+}
+
+.section-heading {
+  display: inline-block;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+.section-heading:hover {
+  transform: translateX(4px);
+}

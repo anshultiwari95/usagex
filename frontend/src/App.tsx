@@ -53,7 +53,7 @@ export default function App() {
         <div className="grid grid-cols-1 gap-4 lg:gap-6">
           {/* Hero card */}
           <section
-            className="card hero-gradient rounded-2xl border border-usagex-primary/20 p-5 shadow-xl transition-all duration-300 sm:p-6 lg:p-8 opacity-0 animate-fade-in-up"
+            className="card hero-gradient rounded-2xl border border-usagex-primary/20 p-5 shadow-xl sm:p-6 lg:p-8 opacity-0 animate-fade-in-up"
             style={{ animationDelay: "0ms" }}
             aria-label="About UsageX"
           >
@@ -69,7 +69,7 @@ export default function App() {
             <button
               type="button"
               onClick={scrollToSession}
-              className="btn-cta cursor-pointer rounded-xl bg-usagex-primary px-5 py-2.5 text-sm font-semibold text-white shadow-md opacity-0 animate-fade-in-up focus:outline-none focus:ring-2 focus:ring-usagex-primary focus:ring-offset-2"
+              className="btn-cta cursor-pointer rounded-xl bg-usagex-primary px-5 py-2.5 text-sm font-semibold text-white shadow-md opacity-0 animate-fade-in-up hover:scale-[1.03] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-usagex-primary focus:ring-offset-2"
               style={{ animationDelay: "240ms" }}
             >
               Get started →
@@ -78,7 +78,7 @@ export default function App() {
 
           {/* Problem + solution card */}
           <section
-            className="card rounded-2xl border border-slate-200/80 bg-white/95 p-5 shadow-lg backdrop-blur-sm opacity-0 animate-fade-in-up sm:p-6"
+            className="card rounded-2xl border border-slate-200/80 bg-white/95 p-5 shadow-lg backdrop-blur-sm sm:p-6 opacity-0 animate-fade-in-up"
             style={{ animationDelay: "280ms" }}
             aria-label="The problem"
           >
@@ -154,7 +154,7 @@ export default function App() {
               {BENEFITS.map((benefit) => (
                 <li
                   key={benefit}
-                  className="group flex items-center gap-3 rounded-xl py-2.5 pr-4 transition-all duration-300 hover:translate-x-1 hover:bg-slate-50/80 hover:pl-4"
+                  className="group flex cursor-pointer items-center gap-3 rounded-xl py-2.5 pr-4 transition-all duration-300 hover:translate-x-1 hover:scale-[1.01] hover:bg-slate-50/80 hover:pl-4"
                 >
                   <span className="h-2 w-2 shrink-0 rounded-full bg-usagex-primary transition-transform duration-300 group-hover:scale-125" aria-hidden />
                   <span className="text-slate-600 text-sm sm:text-base">{benefit}</span>
